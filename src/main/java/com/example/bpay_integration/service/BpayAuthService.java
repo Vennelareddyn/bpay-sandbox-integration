@@ -63,23 +63,7 @@ public class BpayAuthService {
             // Parse the JSON response.
             JsonNode json = objectMapper.readTree(response);
 
-            // Format the JSON so it is easy to read.
-            String prettyResponse = objectMapper
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(json);
 
-            // Print the complete response in IntelliJ's terminal.
-            System.out.println("AP+ TOKEN RESPONSE:");
-            System.out.println(prettyResponse);
-
-            // Save the response in the project root directory.
-            Path outputFile = Path.of("bpay-token-response.json")
-                    .toAbsolutePath();
-
-            Files.writeString(outputFile, prettyResponse);
-
-            System.out.println(
-                    "Token response saved to: " + outputFile);
 
             // Extract and return the access token.
             String accessToken =

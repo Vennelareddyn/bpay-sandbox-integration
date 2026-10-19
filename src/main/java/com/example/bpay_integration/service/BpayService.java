@@ -128,7 +128,7 @@ public class BpayService {
         log.info("URL: {}/validatepayments", restClientBaseUrl());
         log.info("Content-Type: application/json");
         log.info("Authorization: Bearer [MASKED]");
-        log.info("Request body:\n{}", requestJson);
+
 
         return restClient.post()
                 .uri("/validatepayments")
@@ -143,7 +143,7 @@ public class BpayService {
 
                     log.info("========== BPAY VALIDATION RESPONSE ==========");
                     log.info("HTTP status: {}", response.getStatusCode());
-                    log.info("Response body:\n{}", responseBody);
+
 
                     if (response.getStatusCode().isError()) {
                         throw new RestClientResponseException(
