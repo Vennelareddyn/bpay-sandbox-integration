@@ -1,6 +1,7 @@
 
 package com.example.bpay_integration.service;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Service
 public class BpayAuthService {
@@ -44,7 +41,7 @@ public class BpayAuthService {
         form.add("grant_type", "client_credentials");
         form.add("scope", scope);
 
-        // Request a fresh token from AP+ on every call.
+        // Request a token from AP+.
         String response = restClient.post()
                 .uri(tokenUrl)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -60,12 +57,9 @@ public class BpayAuthService {
         }
 
         try {
-            // Parse the JSON response.
+            // Parse the response in memory only.
             JsonNode json = objectMapper.readTree(response);
 
-
-
-            // Extract and return the access token.
             String accessToken =
                     json.path("access_token").asText("");
 
@@ -76,9 +70,9 @@ public class BpayAuthService {
 
             return accessToken;
 
-        } catch (IOException ex) {
+        } catch (JacksonException e) {
             throw new IllegalStateException(
-                    "Could not parse or save AP+ token response", ex);
+                    "Could not parse AP+ token response", e);
         }
     }
 }
