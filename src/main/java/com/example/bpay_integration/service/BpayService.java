@@ -48,7 +48,7 @@ public class BpayService {
         log.info("Method: GET");
         log.info("URL: {}{}", restClientBaseUrl(), path);
         log.info("Authorization: Bearer [MASKED]");
-        log.info("Request body: <none>");
+
 
         return restClient.get()
                 .uri("/biller/{billerCode}", billerCode)
@@ -63,7 +63,7 @@ public class BpayService {
 
                     log.info("========== BPAY INCOMING RESPONSE ==========");
                     log.info("HTTP status: {}", response.getStatusCode());
-                    log.info("Response body:\n{}", responseBody);
+
 
                     if (response.getStatusCode().isError()) {
                         throw new RestClientResponseException(
